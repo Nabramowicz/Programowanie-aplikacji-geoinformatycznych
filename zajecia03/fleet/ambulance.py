@@ -1,8 +1,9 @@
-import operations.incident_queue as iq
+# from operations import *
 class Ambulance:
     __slots__ = ['id', 'vehicle_type', 'status', 'location', 'medical_equipment']
     __instances_count = 0
     __max_id = 1 #1
+    __ambulance_list = []
 
     def __init__(self, vehicle_type, status, location, medical_equipment):
         self.id = Ambulance.__max_id #1
@@ -12,9 +13,13 @@ class Ambulance:
         self.medical_equipment = medical_equipment  # List of medical equipment names
         Ambulance.__instances_count += 1
         Ambulance.__max_id += 1 #1
+        Ambulance.__ambulance_list.append(self)
 
     def update_location(self, new_location):
         self.location = new_location
+
+    def change_status(self, new_status):
+        self.status = new_status
 
     def __eq__(self, other):
         if not isinstance(other, Ambulance):
@@ -34,7 +39,11 @@ class Ambulance:
     def get_instances_count(cls):
         return f"Number of working ambulances: {cls.__instances_count}"
     
-    # def assign_ambulance(self, iq, ambulance):
+    @classmethod
+    def ambulance_list(cls):
+        # return [ambulance.status for ambulance in cls.__ambulance_list]
+        # return [str(ambulance) for ambulance in cls.__ambulance_list]
+        return cls.__ambulance_list
 
 
 
@@ -50,17 +59,22 @@ if __name__ == "__main__":
         status="Available",
         location=(50.095340, 19.920282),
         medical_equipment = ["defibrillator", "stretcher"]
+    )    
+    ambulance3 = Ambulance(
+        vehicle_type="AZ2011",
+        status="Unavailable",
+        location=(50.095340, 19.920282),
+        medical_equipment = ["defibrillator", "stretcher"]
     )
 
     print(ambulance1 == ambulance2)
     print(ambulance1)
 
-# slajd 17 - sloty - odkomentować __slots__
-    # ambulance1.whatever = "123"
-    # print(ambulance1.whatever)
-
-# slajd 17 - metody statyczne i metody klasy - odkomentować 3 rzeczy u góry
     print(Ambulance.validate_id(123))
     print(Ambulance.validate_id("123"))
 
     print(Ambulance.get_instances_count())
+
+    print(Ambulance.ambulance_list())
+    ambulance1.change_status("Unavailable")
+    print(Ambulance.ambulance_list())

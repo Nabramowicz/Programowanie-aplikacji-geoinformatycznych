@@ -16,6 +16,7 @@ class Station:
         if self.is_driver_an_employee(self.driver, self.employee):
             raise ValueError("The driver and the employee cannot be the same person!")
 
+    #czy karetka jest dpo dyspozycji
     def is_ambulance_at_location(self):
         return self.location == self.ambulance.location
     

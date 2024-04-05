@@ -36,12 +36,12 @@ class IncidentQueue:
 
     def __str__(self):
         if len(self):
-            indented_incidents = []
+            incident_text = []
             for idx, incident in enumerate(self.__queue):
                 incident_str = incident.__str__()
-                indented_incident = "\n".join([' ' * 4 * idx + line for line in incident_str.split("\n")])
-                indented_incidents.append(indented_incident)
-            return "\n".join(indented_incidents)
+                incident_info = "\n".join([' ' * 4 * idx + line for line in incident_str.split("\n")])
+                incident_text.append(incident_info)
+            return "\n".join(incident_text)
         else:
             return "Empty queue"
 
@@ -119,12 +119,12 @@ class IncidentQueue:
 
 if __name__ == "__main__":
     queue = IncidentQueue()
-    incident1 = Incident("Power outage in sector 4", "Low", "9.37 PM", "-")
-    incident2 = Incident("Power outage in White House", "High", "9.38 PM", "-")
-    incident3 = Incident("Fire alarm in building 21", "High", "1.38 AM", "-")
-    incident4 = Incident("Fire alarm in building 22", "High", "1.32 AM", "-")
-    incident5 = Incident("Power outage in sector 7", "Low", "1.28 AM", "-")
-    incident6 = Incident("Fire alarm in building 129", "High", "8.15 AM", "-")
+    incident1 = Incident("Power outage in sector 4", "Low", "9.37 PM", (50.095340, 19.920282), "-", "New")
+    incident2 = Incident("Power outage in White House", "High", "9.38 PM", (50.095340, 19.920282), "-", "New")
+    incident3 = Incident("Fire alarm in building 21", "High", "1.38 AM", (50.095340, 19.920282), "-", "New")
+    incident4 = Incident("Fire alarm in building 22", "High", "1.32 AM", (50.095340, 19.920282), "-", "New")
+    incident5 = Incident("Power outage in sector 7", "Low", "1.28 AM", (50.095340, 19.920282), "-", "New")
+    incident6 = Incident("Fire alarm in building 129", "High", "8.15 AM", (50.095340, 19.920282), "-", "New")
 
     print(f"---------- wyświetlanie za pomocą __str__ ----------")
     print(queue)
@@ -150,7 +150,7 @@ if __name__ == "__main__":
         print(incident)
 
     print(f"---------- dodawanie prawostronne za pomocą __radd__ ----------")
-    new_incident = Incident("Test incident", "Low", "7.15 PM", "-")
+    new_incident = Incident("Test incident", "Low", "7.15 PM", (50.095340, 19.920282), "-", "New")
     queue = new_incident + queue
 
     print(f"---------- test za pomocą __bool__ ----------")

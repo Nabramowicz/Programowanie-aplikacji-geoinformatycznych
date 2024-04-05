@@ -7,7 +7,12 @@ def run_application():
     # zdefiniowanie naszych zasobów
     ambulance1 = Ambulance("Type A", "available", (50.095340, 18.920282), ["Defibrillator", "Oxygen tank"])
     ambulance2 = Ambulance("Type B", "on mission", (50.095340, 19.920282), ["Stretcher", "First Aid Kit"])
-
+    ambulance3 = Ambulance(
+        vehicle_type="AZ2011",
+        status="Unavailable",
+        location=(50.095340, 19.920282),
+        medical_equipment = ["defibrillator", "stretcher"]
+        )
     employee1 = Employee("John", "Doe", 12000.0)
     employee2 = Employee("Jane", "Smith", 8000.0)
 
@@ -24,12 +29,12 @@ def run_application():
     queue = IncidentQueue()
 
     # zaraportowanie kilku zgłoszeń
-    incident1 = Incident("Power outage in sector 4", "Low", "6.15 PM", "Emily Addice")
-    incident2 = Incident("Fire alarm in building 21", "High", "1.38 AM", "-")
-    incident3 = Incident("Fire alarm in building 22", "High", "1.32 AM", "-")
-    incident4 = Incident("Power outage in sector 7", "Low", "1.28 AM", "-")
-    incident5 = Incident("Fire alarm in building 21", "High", "1.43 AM", "Tom Jerry, employee of the reported building")
-    incident6 = Incident("Fire alarm in building 129", "High", "8.15 AM", "-")
+    incident1 = Incident("Power outage in sector 4", "Low", "6.15 PM", (50.095340, 19.920282), "Emily Addice", "New")
+    incident2 = Incident("Fire alarm in building 21", "High", "1.38 AM", (50.095340, 19.920282), "-", "New")
+    incident3 = Incident("Fire alarm in building 22", "High", "1.32 AM", (50.095340, 19.920282), "-", "New")
+    incident4 = Incident("Power outage in sector 7", "Low", "1.28 AM", (50.095340, 19.920282), "-", "New")
+    incident5 = Incident("Fire alarm in building 21", "High", "1.43 AM", (50.095340, 19.920282), "Tom Jerry, employee of the reported building", "New")
+    incident6 = Incident("Fire alarm in building 129", "High", "8.15 AM", (50.095340, 19.920282), "-", "New")
     queue += incident1
     queue += incident2
     queue += incident3
