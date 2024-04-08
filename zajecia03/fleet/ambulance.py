@@ -28,9 +28,11 @@ class Ambulance:
         return self.id == other.id and self.vehicle_type == other.vehicle_type
     
     def __str__(self):
+        other_info = self.other if self.other else "-"
         return (f"Ambulance ID: {self.id}, Type: {self.vehicle_type}, "
                 f"Status: {self.status}, Location: {self.location}, "
-                f"Equipment: {', '.join(self.medical_equipment)}")
+                f"Equipment: {', '.join(self.medical_equipment)}, "
+                f"Other: {other_info}")
     
     @staticmethod
     def validate_id(ambulance_id):
@@ -45,6 +47,11 @@ class Ambulance:
         # return [ambulance.status for ambulance in cls.__ambulance_list]
         # return [str(ambulance) for ambulance in cls.__ambulance_list]
         return cls.__ambulance_list
+    
+    #metoda do ładnego wyświetlania listy karetek
+    def ambulance_list_pretty_version():
+        pretty_version = [str(ambulance) for ambulance in Ambulance.ambulance_list()]
+        return print('\n'.join(pretty_version))
 
 
 

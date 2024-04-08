@@ -1,5 +1,5 @@
 from fleet.ambulance import Ambulance
-from operations import IncidentQueue, Incident
+from operations import *
 from personnel import *
 
 
@@ -13,6 +13,19 @@ def run_application():
         location=(50.095340, 19.920282),
         medical_equipment = ["defibrillator", "stretcher"]
         )
+    ambulance4 = Ambulance(
+        vehicle_type="AZ2012",
+        status="Available",
+        location=(50.095340, 19.922562),
+        medical_equipment=["defibrillator", "stretcher"]
+    )
+    ambulance5 = Ambulance(
+        vehicle_type="AZ2016",
+        status="Available",
+        location=(50.095340, 19.770282),
+        medical_equipment=["defibrillator", "stretcher"]
+    )
+    
     employee1 = Employee("John", "Doe", 12000.0)
     employee2 = Employee("Jane", "Smith", 8000.0)
 
@@ -29,12 +42,12 @@ def run_application():
     queue = IncidentQueue()
 
     # zaraportowanie kilku zgłoszeń
-    incident1 = Incident("Power outage in sector 4", "Low", "6.15 PM", (50.095340, 19.920282), "Emily Addice", "New")
-    incident2 = Incident("Fire alarm in building 21", "High", "1.38 AM", (50.095340, 19.920282), "-", "New")
-    incident3 = Incident("Fire alarm in building 22", "High", "1.32 AM", (50.095340, 19.920282), "-", "New")
-    incident4 = Incident("Power outage in sector 7", "Low", "1.28 AM", (50.095340, 19.920282), "-", "New")
-    incident5 = Incident("Fire alarm in building 21", "High", "1.43 AM", (50.095340, 19.920282), "Tom Jerry, employee of the reported building", "New")
-    incident6 = Incident("Fire alarm in building 129", "High", "8.15 AM", (50.095340, 19.920282), "-", "New")
+    incident1 = Incident("Power outage in sector 4", "Low", "6.15 PM", (57.995340, 19.901282), "Emily Addice", "New")
+    incident2 = Incident("Fire alarm in building 21", "High", "1.38 AM", (50.095340, 21.920282), "-", "New")
+    incident3 = Incident("Fire alarm in building 22", "High", "1.32 AM", (52.455340, 19.921282), "-", "New")
+    incident4 = Incident("Power outage in sector 7", "Low", "1.28 AM", (50.095340, 18.920282), "-", "New")
+    incident5 = Incident("Fire alarm in building 21", "High", "1.43 AM", (53.090140, 19.89282), "Tom Jerry, employee of the reported building", "New")
+    incident6 = Incident("Fire alarm in building 129", "High", "8.15 AM", (52.095340, 20.920992), "-", "New")
     queue += incident1
     queue += incident2
     queue += incident3
@@ -53,6 +66,22 @@ def run_application():
     print(f"Przed podwyżką: {driver1.display_info()}")
     driver1.update_salary(5000.12)
     print(f"Po podwyżce: {driver1.display_info()}")
+
+    print(" ")
+
+    #karetki orzed przypisaniem zdarzeń
+    print(Ambulance.ambulance_list_pretty_version())
+    
+    # przypisanie dostępnych karetek do zdarzeń
+    aa = AssignAmbulance(queue)
+    print(aa)
+    print("ZGŁOSZENIA PO PRZYPISANIU DOSTĘPNYCH KARETEK: \n")
+    print(queue)
+
+    #karetki po przypisaniu zdarzeń (status powinien się zmienić)
+    print(Ambulance.ambulance_list_pretty_version())
+
+    
 
 
 if __name__ == "__main__":
