@@ -10,32 +10,50 @@ class AssignAmbulance():
     @property
     def available_ambulance(self):
         return [ambulance for ambulance in Ambulance.ambulance_list() if ambulance.status.lower() == 'available']
-    
-    def nearest_ambulance(self):
-        ambulance_loc = {ambulance.id:ambulance.location for ambulance in self.available_ambulance}
-        incident_loc = {incident.id:incident.location for incident in self.incident_queue}
-        
-        while self.available_ambulance and self.incident_queue:
-            nearest_amb = [[((i[0] - a[0])**2 + (i[1] - a[1])**2)**0.5 
-                            for a in ambulance_loc.values()] 
-                            for i in incident_loc.values()]
-            
-            if any(nearest_amb):
-                min_distance = min(min(distance) for distance in nearest_amb)
-                min_distances = [distance for distances in nearest_amb for distance in distances]
-                incident_id = list(incident_loc.keys())[min_distances.index(min_distance) // len(ambulance_loc)]
-                ambulance_id = list(ambulance_loc.keys())[min_distances.index(min_distance) % len(ambulance_loc)]
-                
-                print("Incident", incident_id, "Nearest ambulance :", ambulance_id)
 
-                del incident_loc[incident_id]
-                del ambulance_loc[ambulance_id]
-            else:
+    def display_ambulance_list(self):
+        ambulance_list = Ambulance.ambulance_list()
+        for ambulance in ambulance_list:
+            print(ambulance)
+
+
+    def update_handled_incident_info(self, incident_id, ambulance_id):
+        #zmiana statusu incydentu   
+        self.incident_queue(incident_id).status = 'Incident handled'
+
+        for ambulance_obj in Ambulance.ambulance_list():
+            if ambulance_obj.id == ambulance_id:
+                ambulance = ambulance_obj
+                ambulance.status = 'Unavailable'
+                ambulance.other = f'Handles event {incident_id}'
                 break
+
+        return self
+    
+
+    def nearest_ambulance(self):
+        ambulance_loc = {ambulance.id: ambulance.location for ambulance in self.available_ambulance}
+        incident_loc = {incident.id: incident.location for incident in self.incident_queue}
+        
+        while ambulance_loc and incident_loc:
+            incident_id, i_loc = list(incident_loc.items())[0]
+            #euclidean distances
+            distances = [(ambulance_id, ((i_loc[0] - a_loc[0])**2 + (i_loc[1] - a_loc[1])**2)**0.5)
+                        for ambulance_id, a_loc in ambulance_loc.items()]
+            ambulance_id, distance = min(distances, key=lambda x: x[1]) #zwraca indeks w liście równoważny indksowi w ambulance_list (przyda się do akutalizacji informacji, żeby później znowu nie iterować po wszystkich elementach), id karetki i dystans
+                    
+            print("Incident", incident_id, "Nearest ambulance :", ambulance_id, "distance: ", distance)
+
+            self.update_handled_incident_info(incident_id, ambulance_id)
+
+            del incident_loc[incident_id]
+            del ambulance_loc[ambulance_id]
+
 
         print("Ambulance locations:", ambulance_loc)
         print("Incident location:", incident_loc)
 
+        return self
 
 
     def __str__(self):
@@ -58,7 +76,7 @@ if __name__ == "__main__":
         medical_equipment=["defibrillator", "stretcher"]
     )
 
-    # aa = AssignAmbulance()
+    # # aa = AssignAmbulance()
 
     ambulance4 = Ambulance(
         vehicle_type="AZ2012",
@@ -88,7 +106,10 @@ if __name__ == "__main__":
     iq += incident2
     iq += incident3
     iq += incident4
-
-    aa = AssignAmbulance(iq)
-    print(aa.nearest_ambulance())
     
+    aa = AssignAmbulance(iq)
+    print(aa)
+    print(aa.nearest_ambulance())
+    print(aa)
+    print(iq)
+    aa.display_ambulance_list()

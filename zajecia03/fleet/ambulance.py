@@ -1,16 +1,17 @@
 # from operations import *
 class Ambulance:
-    __slots__ = ['id', 'vehicle_type', 'status', 'location', 'medical_equipment']
+    __slots__ = ['id', 'vehicle_type', 'status', 'location', 'medical_equipment', 'other']
     __instances_count = 0
     __max_id = 1 #1
     __ambulance_list = []
 
-    def __init__(self, vehicle_type, status, location, medical_equipment):
+    def __init__(self, vehicle_type, status, location, medical_equipment, *other):
         self.id = Ambulance.__max_id #1
         self.vehicle_type = vehicle_type
         self.status = status  # e.g., "available", "on_mission", "servicing"
         self.location = location # as (northing, easting)
         self.medical_equipment = medical_equipment  # List of medical equipment names
+        self.other = other if other else None
         Ambulance.__instances_count += 1
         Ambulance.__max_id += 1 #1
         Ambulance.__ambulance_list.append(self)
