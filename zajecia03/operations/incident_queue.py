@@ -166,3 +166,5 @@ if __name__ == "__main__":
     print(f"---------- posortowana kolejka----------")
     # print(dir(queue))
     print(queue)
+    print(queue[0])
+    
